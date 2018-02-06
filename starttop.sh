@@ -20,7 +20,7 @@ running() {
 
 start() {
     echo "starting $script_name"
-    nohup "$script_name" 2>error.log &
+    nohup "$script_name" 2>s3logpush_error.log &
     echo $! > "$pid_file"
 }
 

@@ -4,6 +4,10 @@ import os
 S3_CONNECT = {'aws_access_key_id': 'YWRtaW4=',
               'aws_secret_access_key': '161ebd7d45089b3446ee4e0d86dbcf92',
               'endpoint_url': 'http://loganalyze.hcp1.kpw.tky.cn'}
+#日志备份的根目录
+BASE_DIR = '/jboss/otswslog'
+
+#日志备份根目录下以IP地址命名的所有目录
 IP_ADDRS = [
     '10.2.201.10',
     '10.2.201.11',
@@ -39,9 +43,11 @@ IP_ADDRS = [
     '10.2.201.9',
 ]
 
-BASE_DIR = '/jboss/otswslog'
-
+#备份日志根目录下所有的服务分组
 SERVERS = [
+    #name: 服务分组名称
+    #ports:该分组下的所有端口
+    #log_name_format: 服务分组对应所有日志格式
     {'name': 'login',
      'ports': ['otsws1', 'otsws2', 'otsws3', 'otsws4'],
      'log_name_format': ['server.log.%Y-%m-%d-%H',
@@ -117,30 +123,24 @@ SERVERS = [
      },
 ]
 
-APP_LOG_INFOS = [
-    {'server_name': 'login', 'ip_addr': '', 'server_port': 'ext1', 'log_directory': '/tmp/$server_name/$server_port',
-     'name': 'server.%Y%m%d%H.log', 'bucket': 'testdata'},
-    # {'directory': '/home/Downloads', 'datetime_format': '', 'name': ''},
-]
+APP_LOG_INFOS = []
 
+#上传线程的并行数
 PARALLEL_NUM = 3
+# 定时任务执行时间定义,如下定义表示每个正点之后的第五分钟执行
+SCHEDULER = {'hour': '0-23', 'minute': '5'}
 
-SCHEDULER = {'hour': '0-23', 'minute': '*', 'second': '*/2'}
-
-if __name__ == '__main__':
-    for ip in IP_ADDRS:
-        for server in SERVERS:
-            for port in server['ports']:
-                for log_name_format in server['log_name_format']:
-                    log_directory = os.path.join(BASE_DIR, ip, server['name'], port)
-                    if os.path.exists(log_directory):
-                        app_log_info = {'server_name': server['name'],
-                                    'ip_addr': ip,
-                                    'server_port': port,
-                                    'log_directory': os.path.join(BASE_DIR, ip, server['name'], port),
-                                    'name': log_name_format,
-                                    'bucket': server['bucket']
-                                    }
-                        print app_log_info
-                        APP_LOG_INFOS.append(app_log_info)
-    print len(APP_LOG_INFOS)
+for ip in IP_ADDRS:
+    for server in SERVERS:
+        for port in server['ports']:
+            for log_name_format in server['log_name_format']:
+                log_directory = os.path.join(BASE_DIR, ip, server['name'], port)
+                if os.path.exists(log_directory):
+                    app_log_info = {'server_name': server['name'],
+                                'ip_addr': ip,
+                                'server_port': port,
+                                'log_directory': os.path.join(BASE_DIR, ip, server['name'], port),
+                                'name': log_name_format,
+                                'bucket': server['bucket']
+                                }
+                    APP_LOG_INFOS.append(app_log_info)
