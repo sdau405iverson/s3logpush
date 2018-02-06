@@ -11,7 +11,7 @@ logger = logging.getLogger("AppName")
 formatter = logging.Formatter('%(asctime)s 	%(filename)-4s %(lineno)-3d %(levelname)-8s: %(message)s')
 
 # 文件日志
-file_handler = logging.FileHandler("s3logpush-run.log")
+file_handler = logging.FileHandler("s3logpush_run.log")
 file_handler.setFormatter(formatter)  # 可以通过setFormatter指定输出格式
 
 # 控制台日志

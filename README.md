@@ -10,6 +10,8 @@
 
 ### 使用方法
 #### 1. clone代码
+        git clone https://github.com/sdau405iverson/s3logpush.git
+        git checkout master
 #### 2. 配置修改
         vi s3logpush/s3logpush/config.py
         ```
@@ -44,3 +46,9 @@
         * 查看状态
             ./startstop.sh status
 **注意：logCollector/tcollector/collectors/1/s3logpush_run.py 必须有执行权限**
+
+### 4. 查看日志
+        * 执行日志
+            startstop.sh同级目录下的s3logpush_run.log
+        * 错误日志
+           startstop.sh同级目录下的s3logpush_error.log 
