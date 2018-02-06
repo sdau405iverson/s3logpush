@@ -4,17 +4,15 @@ import os
 import sys
 import datetime
 from run_logger import logger
-from threading import Thread
 
 import socket
 
 IP_ADDR = socket.gethostbyname(socket.gethostname())
 
 
-class LogCollector(Thread):
+class LogCollector():
 
     def __init__(self, push_queue=None, server_name=None,ip_addr=None, server_port=None, log_directory=None, name=None, bucket=None):
-        Thread.__init__(self,)
         self.daemon = False
         self.server_name = server_name
         self.ip_addr = IP_ADDR if ip_addr == '' else ip_addr
@@ -24,9 +22,6 @@ class LogCollector(Thread):
         self.bucket = bucket
         self.logs_list = None
         self.push_queue = push_queue
-
-    def run(self):
-        self.setup()
 
     def setup(self):
         try:

@@ -20,7 +20,7 @@ running() {
 
 start() {
     echo "starting $script_name"
-    nohup "$script_name" > /dev/null 2>&1 &
+    nohup "$script_name" 2>error.log &
     echo $! > "$pid_file"
 }
 

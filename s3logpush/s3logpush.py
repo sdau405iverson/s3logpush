@@ -18,19 +18,21 @@ def run():
     push_queue = Queue(maxsize=100)
     log_collectors = []
 
-    #获取日志目录下的所有日志文件
-    for app_log_info in config.APP_LOG_INFOS:
-        log_collector = LogCollector(push_queue=push_queue, **app_log_info)
-        log_collector.start()
-        log_collectors.append(log_collector)
-
     for i in range(config.PARALLEL_NUM):
         customer = Custormer(push_queue=push_queue, **config.S3_CONNECT)
         customer.start()
 
+    #获取日志目录下的所有日志文件
+    for app_log_info in config.APP_LOG_INFOS:
+        log_collector = LogCollector(push_queue=push_queue, **app_log_info)
+        log_collector.setup()
+        log_collectors.append(log_collector)
+
+
+
     push_queue.join()
     #定时扫描日志目录的新增日志
-    #sched = Scheduler(daemonic=False)
-    #sched.start()
-    #sched.add_cron_job(producer, args=(log_collectors,), **config.SCHEDULER)
+    sched = Scheduler(daemonic=False)
+    sched.start()
+    sched.add_cron_job(producer, args=(log_collectors,), **config.SCHEDULER)
     #sched.add_cron_job(producer, args=([1, 2, 3, 4, 5],), hour='0-23',minute='')
