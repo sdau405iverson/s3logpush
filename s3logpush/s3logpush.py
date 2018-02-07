@@ -15,7 +15,7 @@ def producer(log_collectors):
 
 def run():
     logger.info('服务启动，开始上传日志文件至S3')
-    push_queue = Queue(maxsize=100)
+    push_queue = Queue()
     log_collectors = []
 
     for i in range(config.PARALLEL_NUM):
@@ -32,7 +32,7 @@ def run():
 
     push_queue.join()
     #定时扫描日志目录的新增日志
-    sched = Scheduler(daemonic=False)
-    sched.start()
-    sched.add_cron_job(producer, args=(log_collectors,), **config.SCHEDULER)
+    #sched = Scheduler(daemonic=False)
+    #sched.start()
+    #sched.add_cron_job(producer, args=(log_collectors,), **config.SCHEDULER)
     #sched.add_cron_job(producer, args=([1, 2, 3, 4, 5],), hour='0-23',minute='')

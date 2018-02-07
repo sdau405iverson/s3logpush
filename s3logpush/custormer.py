@@ -16,11 +16,14 @@ class Custormer(Thread):
         Thread.__init__(self, )
         self.daemon = True
         self.push_queue = push_queue
-        self.s3_session = Session(aws_access_key_id=aws_access_key_id,
-                                  aws_secret_access_key=aws_secret_access_key)
-        self.s3 = self.s3_session.resource('s3', endpoint_url=endpoint_url)
+        try:
+            self.s3_session = Session(aws_access_key_id=aws_access_key_id,
+                                      aws_secret_access_key=aws_secret_access_key)
+            self.s3 = self.s3_session.resource('s3', endpoint_url=endpoint_url)
+        except Exception as e:
+            logger.error(e.message)
 
-    def run2(self):
+    def run(self):
         while True:
             log_meto_info = self.push_queue.get()
             key_md5 = None

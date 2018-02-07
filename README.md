@@ -23,11 +23,9 @@
                       'endpoint_url': 'http://192.168.3.238:8888'}
 
         #log_directory --> 待上传日志的存放目录
-        #name --> 待上传日志的名称（时间戳部分需要使用pythond的datetime format）
         #bucket --> 日志上传的目标bucket,bucket必须已存在
         APP_LOG_INFOS = [
-            {'server_name': 'login', 'ip_addr': '', 'server_port': 'ext1', 'log_directory': '/tmp/$server_name/$server_port',
-     'name': 'server.%Y%m%d%H.log', 'bucket': 'testdata'},,
+            {'log_directory': '/home/samsing/pythonProjects/supersets','bucket': 'testdata'},
         ]
         #上传线程的并发数
         PARALLEL_NUM = 3
