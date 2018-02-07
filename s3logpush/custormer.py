@@ -20,7 +20,7 @@ class Custormer(Thread):
                                   aws_secret_access_key=aws_secret_access_key)
         self.s3 = self.s3_session.resource('s3', endpoint_url=endpoint_url)
 
-    def run2(self):
+    def run(self):
         while True:
             log_meto_info = self.push_queue.get()
             key_md5 = None
